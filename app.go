@@ -42,6 +42,7 @@ func main () {
 			fmt.Fprintf(w, `<Response>
 					    <Say>Congratulations, you got it right.</Say>
 					</Response>`)
+			delete(sessionDb, sessionId)
 		}else{
 			if session.tries < 4 {
 				var state string
