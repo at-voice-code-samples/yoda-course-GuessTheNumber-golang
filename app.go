@@ -38,19 +38,19 @@ func main () {
 			return
 		}
 		
-		if session.tries < 5 {
-			if session.randomNumber == guess {
-				fmt.Fprintf(w, `<Response>
-						    <Say>Congratulations, you got it right.</Say>
-						</Response>`)
-			}else{
+		if session.randomNumber == guess {
+			fmt.Fprintf(w, `<Response>
+					    <Say>Congratulations, you got it right.</Say>
+					</Response>`)
+		}else{
+			if session.tries < 4 {
 				var state string
 				if session.randomNumber < guess {
 					state = "lower"
 				}else{
 					state = "higher"
 				}
-				chances := 5 - session.tries
+				chances := 4 - session.tries
 				chancesPlurality := "chances"
 				if chances == 1 {
 					chancesPlurality = "chance"
@@ -62,15 +62,15 @@ func main () {
 						  <Say>We did not get your account number. Good bye</Say>
 						</Response>`,
 					os.Args[1]+"/digits", state, chances, chancesPlurality)
+				session.tries += 1
+				sessionDb[sessionId] = session
+				
+			}else{
+				fmt.Fprintf(w, `<Response>
+						  <Say>Sorry, you have exhausted your guesses. You lose.</Say>
+						</Response>`)
+				delete(sessionDb, sessionId)
 			}
-			session.tries += 1
-			sessionDb[sessionId] = session
-			
-		}else{
-			fmt.Fprintf(w, `<Response>
-					  <Say>Sorry, you have exhausted your guesses. You lose.</Say>
-					</Response>`)
-			delete(sessionDb, sessionId)
 		}
 	})
 
@@ -86,7 +86,7 @@ func main () {
 			
 		}else{
 			// Create a new session and start the game
-			newSession := sessionState{randomNumber: rand.Intn(20), tries: 1}
+			newSession := sessionState{randomNumber: rand.Intn(20), tries: 0}
 			sessionDb[sessionId] = newSession
 			fmt.Fprintf(w, `<Response>
 					  <GetDigits timeout='30' finishOnKey='#' callbackUrl='%s'>
