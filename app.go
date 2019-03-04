@@ -31,10 +31,10 @@ func main () {
 		if guess > 20 {
 			fmt.Fprintf(w, `<Response>
 					   <GetDigits timeout='30' finishOnKey='#' callbackUrl='%s'>
-					     <Say>%s is above 20. Please pick a number between 0 and 20 and then press hash</Say>
+					     <Say>%d is above 20. Please pick a number between 0 and 20 followed by hash</Say>
 					   </GetDigits>
 					   <Say>We did not get your account number. Good bye</Say>
-					 </Response>`, guess)
+					 </Response>`, os.Args[1]+"/digits", guess)
 			return
 		}
 		
