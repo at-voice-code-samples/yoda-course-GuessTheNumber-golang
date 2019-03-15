@@ -37,7 +37,7 @@ func main () {
 					   <GetDigits timeout='30' finishOnKey='#' callbackUrl='%s'>
 					     <Say>%d is above 20. Please pick a number between 0 and 20 followed by hash</Say>
 					   </GetDigits>
-					   <Say>We did not get your account number. Good bye</Say>
+					   <Say>Sorry, we did not get your input. Goodbye.</Say>
 					 </Response>`, os.Args[1]+"/digits", guess)
 			return
 		}
@@ -66,7 +66,7 @@ func main () {
 						  <GetDigits timeout='30' finishOnKey='#' callbackUrl='%s'>
 						    <Say>The number I am thinking about is %s. You have %d more %s. Guess again.</Say>
 						  </GetDigits>
-						  <Say>We did not get your account number. Good bye</Say>
+						  <Say>Sorry, we did not get your input. Goodbye.</Say>
 						</Response>`,
 					os.Args[1]+"/digits", state, chances, chancesPlurality)
 				session.tries += 1
@@ -102,7 +102,7 @@ func main () {
 					  <GetDigits timeout='30' finishOnKey='#' callbackUrl='%s'>
 					    <Say>Hello there, I am thinking of a number between zero and twenty. Can you guess it within five tries? Enter your guess followed by the hash sign.</Say>
 					  </GetDigits>
-					  <Say>We did not get your account number. Good bye</Say>
+					  <Say>Sorry, we did not get your input. Goodbye.</Say>
 					</Response>`, os.Args[1]+"/digits")
 		}
 		sessionDbMutex.Unlock()
